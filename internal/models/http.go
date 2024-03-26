@@ -16,7 +16,7 @@ func NewServer(port string) *HTTPServer {
 func (s HTTPServer) Open() error {
 	router := http.NewServeMux()
 
-	router.HandleFunc("GET /properties", handlers.Home)
+	router.HandleFunc("GET /properties", handlers.GetListHandler)
 	router.HandleFunc("GET /properties/{id}", handlers.FindHandler)
 	router.HandleFunc("POST /properties/{id}", handlers.PostHandler)
 
@@ -24,6 +24,8 @@ func (s HTTPServer) Open() error {
 		Addr: s.port,
 		Handler: router,
 	}
+
 	server.ListenAndServe()
+
 	return nil
 }

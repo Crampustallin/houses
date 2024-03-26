@@ -4,7 +4,7 @@ import (
 	"net/http"
 )
 
-func Home(w http.ResponseWriter, r *http.Request) {
+func GetListHandler(w http.ResponseWriter, r *http.Request) {
 
 }
 
