@@ -1,12 +1,22 @@
 package models
 
 type Property struct {
-	Id uint `json:"id"`
-	PropertyTypeId uint `json:"property_type_id"`
+	Id int `json:"id"`
+	PropertyTypeId int `json:"property_type_id"`
 	PropertyType string `json:"property_type" `
 	Address string `json:"address"`
-	Price uint `json:"price"`
-	Rooms uint `json:"rooms"`
+	Price int `json:"price"`
+	Rooms int `json:"rooms"`
 	Area float32 `json:"area"`
 	Description string `json:"description"`
+}
+
+type Prop struct {
+	Id int
+	PropertyTypeId int
+	AddressId int
+	Price int
+	Rooms int
+	Area float32
+	Description string
 }

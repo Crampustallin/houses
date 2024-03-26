@@ -1,4 +1,4 @@
-package models
+package database 
 
 import (
 	"database/sql"
@@ -12,12 +12,15 @@ type DB interface {
 	Query(query string, args ...any) (*sql.Rows, error) 
 }
 
-func NewDB(con string) (*sql.DB, error) {
-	db, err := sql.Open("postgres", con)
+var Db *sql.DB
+
+func NewDB(con string) error {
+	var err error
+	Db, err = sql.Open("postgres", con)
 	if err != nil {
-		return nil, err
+		return err
 	}
-	return db, nil
+	return nil
 }
 
 func QueryProperties(db DB, lim int) (*sql.Rows, error) {
@@ -40,10 +43,8 @@ func QueryProperties(db DB, lim int) (*sql.Rows, error) {
 func QueryAddress(db DB, ids []interface{}) (*sql.Rows, error) {
 	query := `SELECT
 	a.address_id,
-	a.city,
-	a.street,
-	a.house_number,
-	a.apartment_number FROM addresses a
+	CONCAT(a.street, ', д.', a.house_number, ', кв. ', a.apartment_number) AS address
+	FROM addresses a
 	WHERE a.address_id IN (` + FormatParamQuery(ids) + ")"
 
 	return db.Query(query, ids)

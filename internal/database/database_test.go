@@ -1,4 +1,4 @@
-package models
+package database 
 
 import (
 	"database/sql"
@@ -37,12 +37,22 @@ func TestQuerries(t *testing.T) {
 	_, err := QueryProperties(m, 5)
 	assert.NoError(t,err)
 
+	m.expectedQuery = `SELECT 
+	p.property_id, 
+	p.property_type_id, 
+	p.address_id, 
+	p.price, 
+	p.rooms, 
+	p.area, 
+	p.description FROM properties p`
+
+	_, err = QueryProperties(m, 0)
+	assert.NoError(t,err)
+
 	m.expectedQuery = `SELECT
 	a.address_id,
-	a.city,
-	a.street,
-	a.house_number,
-	a.apartment_number FROM addresses a
+	CONCAT(a.street, ', д.', a.house_number, ', кв. ', a.apartment_number) AS address
+	FROM addresses a
 	WHERE a.address_id IN ($1,$2,$3)`
 
 	params := []interface{}{1,2,3}
