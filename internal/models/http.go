@@ -2,7 +2,9 @@ package models
 
 import (
 	"net/http"
+
 	"github.com/Crampustallin/houses/internal/handlers"
+	"github.com/Crampustallin/houses/internal/middleware"
 )
 
 type HTTPServer struct {
@@ -22,7 +24,7 @@ func (s HTTPServer) Open() error {
 
 	server := http.Server{
 		Addr: s.port,
-		Handler: router,
+		Handler: middleware.Auth(router),
 	}
 
 	server.ListenAndServe()
