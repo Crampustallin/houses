@@ -3,6 +3,18 @@
 simple api dedicated to house information
 
 
+
+## Installation
+
+```
+git clone https://github.com/Crampustallin/houses.git
+
+cd houses
+
+docker-compose up
+```
+
+
 ## Routes
 
 /properties - allows GET method and returns list of properties limited by 10 
