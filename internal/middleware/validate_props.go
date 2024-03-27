@@ -21,9 +21,6 @@ func ValidateProp(next http.Handler) http.Handler {
 			return
 		}
 			
-		utils.RespondWithJSON(w, http.StatusBadRequest, "Missing required fields")
-
-
-		//next.ServeHTTP(w,r)
+		next.ServeHTTP(w,r)
 	})
 }

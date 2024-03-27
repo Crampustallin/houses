@@ -13,28 +13,28 @@ import (
 func GetListHandler(w http.ResponseWriter, r *http.Request) {
 	list, err := GetList(10, database.QueryProperties)
 	if err != nil {
-		utils.RespondWithError(w, http.StatusInternalServerError, "something went wrong...")
+		utils.RespondWithError(w, 500, err.Error())
 		return
 	}
 	if list == nil {
-		utils.RespondWithError(w, http.StatusNotFound, "not found")
+		utils.RespondWithJSON(w, 200, map[string]string{"message": "message"})
 		return
 	}
-	utils.RespondWithJSON(w, http.StatusOK, list)
+	utils.RespondWithJSON(w, 200, list)
 }
 
 func FindHandler(w http.ResponseWriter, r *http.Request) {
 	id := r.PathValue("id")
 	list, err := GetList(id, database.QueryPropertiesById)
 	if err != nil {
-		utils.RespondWithError(w, http.StatusInternalServerError, "something went wrong...")
+		utils.RespondWithError(w, 500, err.Error())
 		return
 	}
 	if list == nil {
-		utils.RespondWithError(w, http.StatusNotFound, "not found")
+		utils.RespondWithJSON(w, 200, map[string]string{"message": "message"})
 		return
 	}
-	utils.RespondWithJSON(w, http.StatusOK, list)
+	utils.RespondWithJSON(w, 200, list)
 }
 
 func PostHandler(w http.ResponseWriter, r *http.Request) {
@@ -56,8 +56,6 @@ func PostHandler(w http.ResponseWriter, r *http.Request) {
 	err = insertProp(&data)
 	if err != nil {
 		utils.RespondWithError(w, http.StatusInternalServerError, "error while inserting data")
-		return
 	}
-
-	utils.RespondWithJSON(w, http.StatusOK, map[string]string{"OK": "saved"})
 }
+
