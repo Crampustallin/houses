@@ -51,7 +51,7 @@ func QueryPropertiesById(db DB, id string) (*sql.Rows, error) {
 	p.description FROM properties p
 	WHERE p.property_id = ` + id +";"
 
-	return db.Query(query, id)
+	return db.Query(query)
 }
 
 func QueryAddress(db DB, ids []interface{}) (*sql.Rows, error) {
