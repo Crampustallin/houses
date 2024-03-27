@@ -40,6 +40,20 @@ func QueryProperties(db DB, lim int) (*sql.Rows, error) {
 	return db.Query(query)
 }
 
+func QueryPropertiesById(db DB, id string) (*sql.Rows, error) {
+	query := `SELECT 
+	p.property_id, 
+	p.property_type_id, 
+	p.address_id, 
+	p.price, 
+	p.rooms, 
+	p.area, 
+	p.description FROM properties p
+	WHERE p.property_id = ` + id +";"
+
+	return db.Query(query, id)
+}
+
 func QueryAddress(db DB, ids []interface{}) (*sql.Rows, error) {
 	query := `SELECT
 	a.address_id,

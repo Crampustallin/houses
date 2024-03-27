@@ -1,19 +1,23 @@
 package handlers
 
 import (
+	"database/sql"
 	"errors"
 
 	"github.com/Crampustallin/houses/internal/database"
 	"github.com/Crampustallin/houses/internal/models/objects"
 )
 
-func GetList() ([]models.Property, error) {
+
+
+
+func GetList[T string | int](n T,  methodQ func(database.DB, T)(*sql.Rows, error)) ([]models.Property, error) {
 	db := database.Db
 	if db == nil {
 		return nil, errors.New("No connection to data base")
 	}
 	
-	rows, err := database.QueryProperties(db, 10)
+	rows, err := methodQ(db, n)
 	if err != nil {
 		return nil, err
 	}

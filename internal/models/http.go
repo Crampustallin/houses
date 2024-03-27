@@ -19,8 +19,8 @@ func (s HTTPServer) Open() error {
 	router := http.NewServeMux()
 
 	router.HandleFunc("GET /properties", handlers.GetListHandler)
+	router.HandleFunc("POST /properties", handlers.PostHandler)
 	router.HandleFunc("GET /properties/{id}", handlers.FindHandler)
-	router.HandleFunc("POST /properties/{id}", handlers.PostHandler)
 
 	server := http.Server{
 		Addr: s.port,

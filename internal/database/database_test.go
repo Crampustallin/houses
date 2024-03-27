@@ -49,6 +49,19 @@ func TestQuerries(t *testing.T) {
 	_, err = QueryProperties(m, 0)
 	assert.NoError(t,err)
 
+	m.expectedQuery = `SELECT 
+	p.property_id, 
+	p.property_type_id, 
+	p.address_id, 
+	p.price, 
+	p.rooms, 
+	p.area, 
+	p.description FROM properties p
+	WHERE p.property_id = 1;`
+
+	_, err = QueryPropertiesById(m, "1")
+	assert.NoError(t,err)
+
 	m.expectedQuery = `SELECT
 	a.address_id,
 	CONCAT(a.street, ', д.', a.house_number, ', кв. ', a.apartment_number) AS address
