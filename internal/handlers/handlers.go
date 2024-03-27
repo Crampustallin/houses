@@ -12,7 +12,7 @@ import (
 func GetListHandler(w http.ResponseWriter, r *http.Request) {
 	list, err := GetList(10, database.QueryProperties)
 	if err != nil {
-		utils.RespondWithError(w, http.StatusInternalServerError, "error while getting the data...")
+		utils.RespondWithError(w, http.StatusInternalServerError, err.Error())
 		return
 	}
 	if list == nil {
