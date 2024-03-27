@@ -1,9 +1,11 @@
 package middleware
 
 import (
-	"net/http"
 	"crypto/sha256"
 	"crypto/subtle"
+	"net/http"
+
+	"github.com/Crampustallin/houses/internal/utils"
 )
 
 func Auth(next http.Handler) http.Handler {
@@ -26,6 +28,6 @@ func Auth(next http.Handler) http.Handler {
 		}
 
 		w.Header().Set("WWW-Authenticate", `Basic realm="restricted", charset="UTF-8"`)
-		http.Error(w, "Unauthorized", http.StatusUnauthorized)
+		utils.RespondWithError(w, http.StatusUnauthorized, "Unauthorized")
 	})
 }

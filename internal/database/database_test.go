@@ -19,6 +19,10 @@ func (m *MockDB) Query(query string, args ...any) (*sql.Rows, error) {
 	return nil, nil
 }
 
+func (m *MockDB) Exec(query string, args ...any) (sql.Result, error) {
+	return nil, nil
+}
+
 func TestQuerries(t *testing.T) {
 	m := new(MockDB)
 	m.T = t

@@ -12,11 +12,11 @@ type Property struct {
 }
 
 type Prop struct {
-	Id int
-	PropertyTypeId int
-	AddressId int
-	Price int
-	Rooms int
-	Area float32
-	Description string
+	Id int `json:"id"`
+	PropertyTypeId int `json:"property_type_id"`
+	AddressId int `json:"address_id"`
+	Price int `json:"price"`
+	Rooms int `json:"rooms"`
+	Area float32 `json:"area"`
+	Description string `json:"description"`
 }

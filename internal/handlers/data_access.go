@@ -12,12 +12,12 @@ import (
 
 
 func GetList[T string | int](n T,  methodQ func(database.DB, T)(*sql.Rows, error)) ([]models.Property, error) {
-	db := database.Db
+	db := &database.Db
 	if db == nil {
 		return nil, errors.New("No connection to data base")
 	}
 	
-	rows, err := methodQ(db, n)
+	rows, err := methodQ(*db, n)
 	if err != nil {
 		return nil, err
 	}
@@ -52,7 +52,7 @@ func GetList[T string | int](n T,  methodQ func(database.DB, T)(*sql.Rows, error
 		i++
 	}
 
-	rows, err = database.QueryAddress(db, ids)
+	rows, err = database.QueryAddress(*db, ids)
 
 	for rows.Next() {
 		var addId int
@@ -71,7 +71,7 @@ func GetList[T string | int](n T,  methodQ func(database.DB, T)(*sql.Rows, error
 		i++
 	}
 
-	rows, err = database.QueryPropertyTypes(db, ids)
+	rows, err = database.QueryPropertyTypes(*db, ids)
 
 	for rows.Next() {
 		var typeId int

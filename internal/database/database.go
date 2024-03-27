@@ -1,15 +1,17 @@
-package database 
+package database
 
 import (
 	"database/sql"
 	"strconv"
 	"strings"
 
+	models "github.com/Crampustallin/houses/internal/models/objects"
 	_ "github.com/lib/pq"
 )
 
 type DB interface {
 	Query(query string, args ...any) (*sql.Rows, error) 
+	Exec(query string, args ...any) (sql.Result, error)
 }
 
 var Db *sql.DB
@@ -71,6 +73,13 @@ func QueryPropertyTypes(db DB, ids []interface{}) (*sql.Rows, error) {
 	WHERE p.property_type_id IN (` + FormatParamQuery(ids) + ")"
 
 	return db.Query(query, ids)
+}
+
+func InsertProperty(db DB, prop models.Prop) (sql.Result, error) {
+	query := `INSERT INTO properties (property_type_id, address_id, price, rooms, area, description)
+	VALUES ($1, $2, $3, $4, $5, $6)`
+
+	return db.Exec(query, prop.PropertyTypeId, prop.AddressId, prop.Price, prop.Rooms, prop.Area, prop.Description)
 }
 
 func FormatParamQuery[T any](params []T) string {
