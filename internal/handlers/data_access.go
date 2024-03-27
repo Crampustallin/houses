@@ -3,6 +3,7 @@ package handlers
 import (
 	"database/sql"
 	"errors"
+	"strconv"
 
 	"github.com/Crampustallin/houses/internal/database"
 	"github.com/Crampustallin/houses/internal/models/objects"
@@ -13,7 +14,7 @@ import (
 
 func GetList[T string | int](n T,  methodQ func(database.DB, T)(*sql.Rows, error)) ([]models.Property, error) {
 	db := &database.Db
-	if db == nil {
+	if *db == nil {
 		return nil, errors.New("No connection to data base")
 	}
 	
@@ -30,14 +31,20 @@ func GetList[T string | int](n T,  methodQ func(database.DB, T)(*sql.Rows, error
 
 	for rows.Next() {
 		var prop models.Prop
+		var price string
 		if err := rows.Scan(&prop.Id, &prop.PropertyTypeId,
-	&prop.AddressId, &prop.Price, &prop.Rooms, &prop.Area, &prop.Description); err != nil {
+	&prop.AddressId, &price, &prop.Rooms, &prop.Area, &prop.Description); err != nil {
+			return nil, err
+		}
+		prop.Price, err = strconv.ParseFloat(price, 64)
+		if err != nil {
 			return nil, err
 		}
 		props[prop.Id] = prop
 		addr[prop.AddressId] = ""
 		propType[prop.PropertyTypeId] = ""
 	}
+
 
 	if len(props) == 0 {
 		return nil, nil
@@ -53,6 +60,9 @@ func GetList[T string | int](n T,  methodQ func(database.DB, T)(*sql.Rows, error
 	}
 
 	rows, err = database.QueryAddress(*db, ids)
+	if err != nil {
+		return nil, err
+	}
 
 	for rows.Next() {
 		var addId int
@@ -63,6 +73,7 @@ func GetList[T string | int](n T,  methodQ func(database.DB, T)(*sql.Rows, error
 		addr[addId] = name
 	}
 
+
 	ids = make([]interface{}, len(propType), len(propType))
 
 	i = 0
@@ -72,6 +83,9 @@ func GetList[T string | int](n T,  methodQ func(database.DB, T)(*sql.Rows, error
 	}
 
 	rows, err = database.QueryPropertyTypes(*db, ids)
+	if err != nil {
+		return nil, err
+	}
 
 	for rows.Next() {
 		var typeId int
@@ -83,7 +97,7 @@ func GetList[T string | int](n T,  methodQ func(database.DB, T)(*sql.Rows, error
 	}
 
 
-	properties := make([]models.Property, len(props), len(props))
+	properties := make([]models.Property, 0, len(props))
 
 	for _, val := range props {
 		property := models.Property{Id: val.Id, 
@@ -96,6 +110,7 @@ func GetList[T string | int](n T,  methodQ func(database.DB, T)(*sql.Rows, error
 		Description: val.Description}
 		properties = append(properties, property)
 	}
+
 
 	return properties, nil;
 }

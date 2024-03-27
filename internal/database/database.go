@@ -63,16 +63,16 @@ func QueryAddress(db DB, ids []interface{}) (*sql.Rows, error) {
 	FROM addresses a
 	WHERE a.address_id IN (` + FormatParamQuery(ids) + ")"
 
-	return db.Query(query, ids)
+	return db.Query(query, ids...)
 }
 
 func QueryPropertyTypes(db DB, ids []interface{}) (*sql.Rows, error) {
 	query := `SELECT 
-	p.property_type_id
+	p.property_type_id,
 	p.property_type_name FROM property_types p
 	WHERE p.property_type_id IN (` + FormatParamQuery(ids) + ")"
 
-	return db.Query(query, ids)
+	return db.Query(query, ids...)
 }
 
 func InsertProperty(db DB, prop models.Prop) (sql.Result, error) {

@@ -2,7 +2,6 @@ package handlers
 
 import (
 	"encoding/json"
-	"io"
 	"net/http"
 
 	"github.com/Crampustallin/houses/internal/database"
@@ -13,7 +12,7 @@ import (
 func GetListHandler(w http.ResponseWriter, r *http.Request) {
 	list, err := GetList(10, database.QueryProperties)
 	if err != nil {
-		utils.RespondWithError(w, http.StatusInternalServerError, "something went wrong...")
+		utils.RespondWithError(w, http.StatusInternalServerError, "error while getting the data...")
 		return
 	}
 	if list == nil {
@@ -41,21 +40,15 @@ func PostHandler(w http.ResponseWriter, r *http.Request) {
 	defer r.Body.Close()
 	var data models.Prop
 
-	dat, err := io.ReadAll(r.Body)
-	if err != nil {
-		utils.RespondWithError(w, http.StatusInternalServerError, "couldn't read request")
-		return
-	}
-
-	err = json.Unmarshal(dat, &data)
+	err := json.NewDecoder(r.Body).Decode(&data) 
 	if err !=  nil {
-		utils.RespondWithError(w, http.StatusInternalServerError, "something went wrong...")
+		utils.RespondWithError(w, http.StatusInternalServerError, "error while handling body...")
 		return
 	}
 
 	err = insertProp(&data)
 	if err != nil {
-		utils.RespondWithError(w, http.StatusInternalServerError, "error while inserting data")
+		utils.RespondWithError(w, http.StatusInternalServerError, "error while saving the data...")
 		return
 	}
 

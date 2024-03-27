@@ -1,8 +1,10 @@
 package middleware
 
 import (
-	"net/http"
+	"bytes"
 	"encoding/json"
+	"io"
+	"net/http"
 
 	models "github.com/Crampustallin/houses/internal/models/objects"
 	"github.com/Crampustallin/houses/internal/utils"
@@ -11,7 +13,12 @@ import (
 func ValidateProp(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		var data models.Prop
-		if err := json.NewDecoder(r.Body).Decode(&data); err != nil {
+		buf, err := io.ReadAll(r.Body)
+		if err != nil {
+			utils.RespondWithError(w, http.StatusInternalServerError, "couldn't read reques")
+		}
+		body := io.NopCloser(bytes.NewBuffer(buf))
+		if err := json.Unmarshal(buf, &data); err != nil {
 			utils.RespondWithError(w, http.StatusBadRequest, err.Error())
 			return
 		}
@@ -20,6 +27,8 @@ func ValidateProp(next http.Handler) http.Handler {
 			utils.RespondWithError(w, http.StatusBadRequest, "Missing required fields")
 			return
 		}
+
+		r.Body = body
 			
 		next.ServeHTTP(w,r)
 	})
