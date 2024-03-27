@@ -19,11 +19,11 @@ func (c *Config) ConnectionString() string {
 
 func NewConfig() *Config {
 	return &Config{
-		DBHost: getenv("DBHost", "localhost"), 
-		DBPort: getenv("DBHost", "5432"),
-		DBUser: getenv("DBHost", "mukhammed"),
-		DBPassword: getenv("DBHost", "postgres"),
-		DBName: getenv("DBHost", "rams_db"),
+		DBHost: getenv("POSTGRES_HOST", "localhost"), 
+		DBPort: getenv("POSTGRES_PORT", "5432"),
+		DBUser: getenv("POSTGRES_USER", "postgres"),
+		DBPassword: getenv("POSTGRES_PASSWORD", "postgres"),
+		DBName: getenv("POSTGRES_DB", "rams_db"),
 	}
 }
 
