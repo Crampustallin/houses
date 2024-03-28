@@ -35,7 +35,7 @@ docker-compose up
 
 ### GET method
 
-### Response properties
+#### Response properties
 
 
     id - id of a property
@@ -68,6 +68,7 @@ See [Examples](#examples)
 
 #### properties
 
+```
 property_type_id (**required**) - refference to a property ("flat", "land" .etc) 
 
 address_id (**required**) - refference to an address from addresses table (unique address only)  
@@ -79,6 +80,7 @@ rooms - amount of rooms
 area - area of the property
 
 description - description of the property
+```
 
 Without the **requred** fields the server throws an error of bad request
 
