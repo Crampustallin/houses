@@ -61,8 +61,7 @@ curl -u admin:admin localhost:8080/properties
 ```bash
 curl -u admin:admin localhost:8080/properties/3
 ```
-
-See [Examples](#examples)
+Reponse for these requests is a list of items see [Examples](#examples)
 
 ### POST method
 
@@ -86,6 +85,8 @@ Without the **requred** fields the server throws an error of bad request
 
 ## Examples
 
+### POST
+
 ```bash
 curl -H "Content-Type: application/json" \ 
 -X POST \
@@ -102,6 +103,8 @@ Response:
 ```JSON
 {"OK":"saved"}
 ```
+
+### GET 
 
 ```bash
 curl -u admin:admin localhost:8080/properties
