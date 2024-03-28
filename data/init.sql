@@ -247,36 +247,3 @@ ALTER TABLE ONLY public.properties
 
 ALTER TABLE ONLY public.properties
     ADD CONSTRAINT properties_property_type_id_fkey FOREIGN KEY (property_type_id) REFERENCES public.property_types(property_type_id);
-
-INSERT INTO public.addresses (address_id, city, street, house_number, apartment_number, postal_code) VALUES
-(2,	'Ваш_город',	'Ул. Ленина',	5,	3	),
-(3,	'Ваш_город',	'Ул. Центральная',	12	),
-(4,	'Ваш_город',	'СНТ Рассвет',	25	),	
-(5,	'Ваш_город',	'Проспект Победы',	20,	8),	
-(6,	'Ваш_город',	'Ул. Садовая',	7),
-(7,	'Ваш_город',	'Деревня Солнечная',	'участок', 10),
-(8,	'Ваш_город',	'Проспект Мира',	15,	12	);
-
-
---
--- Data for Name: property_types; Type: TABLE DATA; Schema: public; Owner: -
---
-
-INSERT INTO public.property_types (property_type_id, property_type_name) VALUES
-(1,	'Квартира'),
-(2,	'Дом'),
-(3,	'Земельный участок');
-
-
---
--- Data for Name: properties; Type: TABLE DATA; Schema: public; Owner: -
---
-
-INSERT INTO public.properties (property_id, property_type_id, address_id, price, rooms, area, description) VALUES
-(3,	1,	2,	1200000.00,	1,	45.50,	'Студия в новом доме с ремонтом и мебелью'),
-(7,	1,	3,	1200000.00,	1,	45.50,	null);
-
---
--- PostgreSQL database dump complete
---
-
