@@ -13,6 +13,11 @@ services:
     depends_on:
        db:
          condition: service_healthy
+    healthcheck:
+       test: [ "CMD", "psql -h db -p 5432 -U postgres -c \"\\l\" | grep my_database_name"]
+       interval: 10s
+       timeout: 5s
+       retries: 5 
   db:
      image: postgres
      restart: always
