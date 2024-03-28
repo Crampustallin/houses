@@ -12,7 +12,6 @@ services:
     depends_on:
        db:
          condition: service_healthy
-    restart: on-failure
   db:
      image: postgres
      restart: always
@@ -28,7 +27,7 @@ services:
      ports:
        - 5432:5432
      healthcheck:
-       test: [ "CMD", "pg_isready" ]
+       test: [ "CMD", "psql -h localhost -p 5432 -U postgres -c \"\\l\" | grep my_database_name"]
        interval: 10s
        timeout: 5s
        retries: 5 
