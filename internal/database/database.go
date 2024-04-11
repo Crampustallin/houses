@@ -10,7 +10,7 @@ import (
 )
 
 type DB interface {
-	Query(query string, args ...any) (*sql.Rows, error) 
+	Query(query string, args ...any) (*sql.Rows, error)
 	Exec(query string, args ...any) (sql.Result, error)
 }
 
@@ -51,7 +51,7 @@ func QueryPropertiesById(db DB, id string) (*sql.Rows, error) {
 	p.rooms, 
 	p.area, 
 	p.description FROM properties p
-	WHERE p.property_id = ` + id +";"
+	WHERE p.property_id = ` + id + ";"
 
 	return db.Query(query)
 }
